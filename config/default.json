@@ -1,0 +1,6 @@
+{
+  "port": 8080,
+  "mongoUri": "mongodb://localhost:27017/fast-news-feed",
+  "jwtSecret": "secretJwt",
+  "baseUrl": "http://localhost:8080"
+}
