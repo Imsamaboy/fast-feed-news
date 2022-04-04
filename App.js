@@ -56,7 +56,7 @@ if (process.env.NODE_ENV === "production") {
 async function start() {
     try {
         await mongoose.connect(config.get("mongoUri"), {useNewUrlParser: true})
-        app.listen(PORT, () =>{
+        app.listen(PORT, () => {
             logger.info(`Server running on port ${PORT}...`)
         })
     } catch (ex) {

@@ -198,7 +198,7 @@ router.post(
             const user = await User.findOne({email})
             // проверка на существование
             if (!user) {
-                logger.error(`User isn't found: ${User}`)
+                logger.error(`User isn't found: ${user}`)
                 return res.status(400).json({message: "Пользователь не найден"})
             }
             // проверка на совпадение паролей
