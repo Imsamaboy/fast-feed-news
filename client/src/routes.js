@@ -11,7 +11,7 @@ export const useRoutes = isAuthenticated => {
         return (
             <Routes>
                 <Route path="/feed" exact element={ <FeedPage/> }/>
-                <Route path="/create/post/:id" exact element={ <CreatePostPage/> }/>
+                <Route path="/create/post/" exact element={ <CreatePostPage/> }/>
                 <Route
                     path="*"
                     element={<Navigate to="/feed" replace />}

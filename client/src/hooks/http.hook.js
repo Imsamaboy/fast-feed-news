@@ -1,8 +1,9 @@
 import {useState, useCallback} from "react"
 
-// хук
+const pino = require("pino")
+const logger = pino({level: process.env.LOG_LEVEL || "info", prettyPrint: true})
+
 export const useHttp = () => {
-    // определяет грузится что-то с сервера или нет
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
 
@@ -27,11 +28,12 @@ export const useHttp = () => {
             return data
         } catch (ex) {
             console.log("Catch: ", ex.message)
+            logger.error(`Error: ${ex.message}`)
             setLoading(false)
             setError(ex.message)
             throw ex
         }
-    }, [])  // deps - пока наш метод ни от чего не зависит
+    }, [])
 
     const clearError = useCallback(() => setError(null), [])
 

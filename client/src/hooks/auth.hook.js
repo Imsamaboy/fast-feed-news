@@ -11,7 +11,6 @@ export const useAuth = () => {
     const login = useCallback((jwtToken, id) => {
         setToken(jwtToken)
         setUserId(id)
-        // local storage это базовый браузерный Api
         localStorage.setItem(storageName, JSON.stringify({
             userId: id, token: jwtToken
         }))

@@ -9,7 +9,6 @@ const config = require("config")
 const User = require("../model/User")
 
 // /api/auth
-// читать express-validators
 /**
  * @swagger
  * /api/auth/register:
@@ -111,7 +110,6 @@ router.post(
         }
     })
 
-// ЛОГИРОВАНИЕ
 // /api/auth
 /**
  * @swagger

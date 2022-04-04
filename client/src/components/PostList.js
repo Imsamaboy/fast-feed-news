@@ -1,43 +1,56 @@
 import React from "react"
-import {Div, Text} from "@vkontakte/vkui"
 import "@vkontakte/vkui/dist/vkui.css"
+import {Avatar, Text, Title} from "@vkontakte/vkui"
+import {Post} from "../styles/Post"
+import {Header} from "../styles/Header"
+import {Content} from "../styles/Content"
+import {Author} from "../styles/Author"
+import {PostWrapper} from "../styles/PostWrapper"
 
 
 export const PostList = ({posts}) => {
-    // пофиксить
-    // console.log(!posts.length)
+
     if (!posts.length) {
-        return <p className="center">Лента пока пустая :(</p>
+        return (
+            <PostWrapper>
+                <div className="card-panel hoverable">
+                    <Title className="center" level="1" style={{ marginBottom: 0 }}> Feed is empty 😔 </Title>
+                </div>
+            </PostWrapper>
+        )
     }
 
     const Posts = post => (
-        <Div>
-            <Text weight="medium"
-                  style={{marginBottom: 16, background: "white"}}>
-                {post.header}
-            </Text>
-            <Text weight="regular" style={{marginBottom: 16}}>
-                {post.ownerName}
-            </Text>
-            <Text weight="regular" style={{marginBottom: 16}}>
-                {post.date}
-            </Text>
-            <Text weight="regular" style={{marginBottom: 16}}>
-                {post.content}
-            </Text>
-        </Div>
+        <Post>
+            <div className="card-panel hoverable">
+            <Author>
+                <Avatar size={72}/>
+                <Text weight="medium" style={{marginBottom: 2}}>
+                    Author: {post.ownerName}
+                </Text>
+                <Text weight="regular" style={{marginBottom: 16}}>
+                    {post.date.slice(0, 10) + " " + post.date.slice(11, 19)}
+                </Text>
+            </Author>
+            <Header>
+                <Title level="1" style={{ marginBottom: 0 }}>
+                    {post.header}
+                </Title>
+            </Header>
+
+            <Content>
+                <Text weight="regular" style={{marginBottom: 16}}>
+                    {post.content}
+                </Text>
+            </Content>
+            </div>
+        </Post>
     );
 
     return (
-        posts.map((post) => <Div
-            style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    color: "black",
-                    alignItems: "center",
-                    background: "gray"
-            }}>
-            {Posts(post)}
-        </Div>)
+        posts.map((post) =>
+            <PostWrapper>
+                {Posts(post)}
+            </PostWrapper>)
     )
 }

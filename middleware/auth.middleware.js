@@ -1,9 +1,9 @@
 const jwt = require("jsonwebtoken") // для раскодирования токена
 const config = require("config")
+const pino = require("pino")
+const logger = pino({level: process.env.LOG_LEVEL || "info", prettyPrint: true})
 
-// эта функция перехватывает определенные данные и делать логику которая тут
-// next - параметр который позволяет продолжить выполнение запроса
-// Этот метод из rest api который проверяет доступность сервера
+
 module.exports = (req, res, next) => {
     if (req.method === "OPTIONS") {
         return next()
@@ -11,15 +11,16 @@ module.exports = (req, res, next) => {
     try {
         // "Bearer TOKEN"
         const token = req.headers.authorization.split(" ")[1]
-        if (!token) {   // если нет токена
-            return res.status(401).json({message: "Нет авторизации"})  // 401 - нет авторизации
+        if (!token) {
+            logger.error(`No authorization: ${token}`)
+            return res.status(401).json({message: "Нет авторизации"})
         }
-        const decoded = jwt.verify(token, config.get("jwtSecret"))  // тут валится
+        const decoded = jwt.verify(token, config.get("jwtSecret"))
         req.user = decoded
+        logger.info("Token values match...")
         next()
-
     } catch (ex) {
-        console.log(ex.message)
+        logger.error(`No authorization: ${ex.message}`)
         res.status(401).json({message: "Нет авторизации"})
     }
 }

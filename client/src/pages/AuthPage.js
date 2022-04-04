@@ -3,19 +3,19 @@ import {useHttp} from "../hooks/http.hook"
 import {useMessage} from "../hooks/message.hook"
 import {AuthContext} from "../context/AuthContext"
 
-export const AuthPage = () => {
+const pino = require("pino")
+const logger = pino({level: process.env.LOG_LEVEL || "info", prettyPrint: true})
 
+export const AuthPage = () => {
     const auth = useContext(AuthContext)
     const message = useMessage()
 
-    // хук
     const {loading, request, error, clearError}  = useHttp()
 
     const [form, setForm] = useState({
         email: "", password: ""
     })
 
-    //
     const changeHandler = event => {
         // оператор spread
         setForm({ ...form, [event.target.name]: event.target.value })
@@ -25,9 +25,11 @@ export const AuthPage = () => {
     const registerHandler = async () => {
         try {
             const data = await request("/api/auth/register", "POST", {...form})
-            console.log("Data", data)
             message(data.message)
-        } catch (ex) {}
+        } catch (ex) {
+            console.log("Catch: ", ex.message)
+            logger.error(`Error: ${ex.message}`)
+        }
     }
 
     // запросы на бэк по логированию
@@ -35,9 +37,10 @@ export const AuthPage = () => {
         try {
             const data = await request("/api/auth/login", "POST", {...form})
             auth.login(data.token, data.userId)
-            // console.log("Data", data)
-            // message(data.message)
-        } catch (ex) {}
+        } catch (ex) {
+            console.log("Catch: ", ex.message)
+            logger.error(`Error: ${ex.message}`)
+        }
     }
 
     useEffect(() => {
@@ -45,23 +48,22 @@ export const AuthPage = () => {
     })
 
     useEffect(() => {
-        // console.log(error)
         message(error)
         clearError()
     }, [error, message, clearError])
 
     return (
-        <div className="row">
+        <div className="container" style={{width: "50vw", height: "95vh"}}>
             <div className="col s6 offset-s3">
                 <h1>Fast-News-Feed</h1>
                 <div className="card blue darken-1">
                     <div className="card-content white-text">
-                        <span className="card-title">Авторизация</span>
+                        <span className="card-title">Authorization</span>
                         <div>
                             <div className="input-field">
                                 <label htmlFor="email">Email</label>
                                 <input
-                                    placeholder="Введите email"
+                                    placeholder="Input email"
                                     id="email"
                                     type="text"
                                     name="email"
@@ -71,15 +73,15 @@ export const AuthPage = () => {
                                 />
                             </div>
                             <div className="input-field">
-                                <label htmlFor="email">Пароль</label>
+                                <label htmlFor="email">Password</label>
                                 <input
-                                    placeholder="Введите пароль"
+                                    placeholder="Input password"
                                     id="password"
                                     type="password"
                                     name="password"
                                     className="yellow-input"
                                     value={form.password}
-                                    onChange={changeHandler}    // будет обновляться форма
+                                    onChange={changeHandler}
                                 />
                             </div>
                         </div>
@@ -91,14 +93,14 @@ export const AuthPage = () => {
                             onClick={loginHandler}
                             disabled={loading}
                         >
-                            Войти
+                            Log in
                         </button>
                         <button
                             className="btn grey lighten-1 black-text"
                             onClick={registerHandler}
-                            disabled={loading}  // блокирование кнопок пока идёт запрос
+                            disabled={loading}
                         >
-                            Регистрация
+                            Sign Up
                         </button>
                     </div>
                 </div>

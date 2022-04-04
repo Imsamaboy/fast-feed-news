@@ -49,7 +49,7 @@ router.get("/getId", auth, async (req, res) => {
     try {
         // Достаём максимальный айдишник
         logger.info("Trying to get max post id from DB...")
-        const existing = await Post.findOne().sort("postId").exec()
+        const existing = await Post.findOne().sort({postId: -1})
         logger.info("Max ID has been found...")
         return existing ? res.json({maxPostId: existing}) : res.json({maxPostId: 1})
     } catch (ex) {
