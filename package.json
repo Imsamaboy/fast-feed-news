@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cross-env NODE_ENV=production node App.js",
     "server": "nodemon App.js",
-    "build": "npm install cross-env && npm install --prefix client && npm run build --prefix client",
+    "build": "npm install --prefix client && npm run build --prefix client",
     "client": "npm run start --prefix client",
     "client:install": "npm install --prefix client",
     "client:build": "npm run build --prefix client",
@@ -26,7 +26,10 @@
     "pino-pretty": "^7.6.0"
   },
   "dependencies": {
+    "concurrently": "^7.0.0",
     "cross-env": "^7.0.3",
+    "nodemon": "^2.0.15",
+    "pino-pretty": "^7.6.0",
     "@next-auth/prisma-adapter": "^1.0.3",
     "bcryptjs": "^2.4.3",
     "config": "^3.3.7",
