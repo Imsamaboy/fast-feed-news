@@ -1,6 +1,6 @@
 {
   "port": 8080,
-  "mongoUri": "mongodb://localhost:27017/fast-news-feed",
+  "mongoUri": "mongodb+srv://sfelshtyn:Root1Root1@cluster0.svoyy.mongodb.net/fast_news_feed?retryWrites=true&w=majority",
   "jwtSecret": "secretJwt",
   "baseUrl": "http://localhost:8080"
 }

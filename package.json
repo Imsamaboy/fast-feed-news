@@ -4,9 +4,11 @@
   "description": "Internship task for VK",
   "main": "App.js",
   "scripts": {
+    "postinstall": "cd client && npm install",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cross-env NODE_ENV=production node App.js",
     "server": "nodemon App.js",
+    "build": "npm run build",
     "client": "npm run start --prefix client",
     "client:install": "npm install --prefix client",
     "client:build": "npm run build --prefix client",
